@@ -1,21 +1,26 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { ListGroup } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import FormComment from "./FormComment";
 import Cookies from 'universal-cookie';
+import MineModal from "./Modal";
 
 
 function MyCard(props) {
 
-
     const cookies = new Cookies();
 
+  const [showModal,setShowModal] = useState(false)
+
+
+    const handleEdit= (id)=>{
+      setShowModal(true)
+      
+    }
 
   const handlepost = (id)=>{
-    console.log(id)
-
     const config = {
       headers: { Authorization: `Bearer ${cookies.get('token')}` }
   };
@@ -32,13 +37,27 @@ function MyCard(props) {
   return (
 
     <div>
+      {showModal &&
+      <MineModal flage={showModal} setShowModal={setShowModal} id={props.id} 
+      title={props.item.title}
+      content = {props.item.content}
+      fetchData={props.fetchData}
+      />
+      }
       <Card>
         <Card.Header>{`Post By ${props.item.name}`}</Card.Header>
         <Card.Body>
           <Card.Title>{props.item.title}</Card.Title>
           <Card.Text>{props.item.content} </Card.Text>
-          <Button variant="primary" className="cardbtn">Update</Button>
-          <Button variant="primary" className="cardbtn" onClick={()=>handlepost(props.id)} >Delete</Button>
+
+        {
+         (props.user.role ==="admin")&&
+          <>
+            <Button variant="primary" className="cardbtn" onClick={()=>handleEdit(props.id)} >Update</Button>
+            <Button variant="primary" className="cardbtn" onClick={()=>handlepost(props.id)} >Delete</Button>
+          </>
+        }
+
           {props.item.Comments &&
           <ListGroup className="list-group-flush">
             
