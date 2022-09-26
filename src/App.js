@@ -71,6 +71,7 @@ function App() {
     config
   ).then(result=>{
     // console.log(result.data)
+    let x = 0;
     setuserList(result.data)
   }).catch(console.log);
 
