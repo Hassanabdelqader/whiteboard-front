@@ -36,6 +36,7 @@ export default function NavBar(props) {
             }}>
           Sign Up
         </MDBBtn>
+
         <MDBBtn outline color="secondary" type='button' onClick={()=>{
 
             props.setsignUpFlag(false)
@@ -48,21 +49,42 @@ export default function NavBar(props) {
         </MDBBtn>
        </>
         }
-
+          
             {props.isLogged && 
             <>
             welcome{" "} {props.user?.username} {" "}
-                {props.signOutFlag &&
-                        <MDBBtn outline color="secondary" type='button' onClick={()=>{
-                            cookies.remove("token") 
-                            props.setisLogged(false)
-                            props.setsignUpFlag(false)
-                            props.setLoginFlag(true)
-                            props.setsignOutFlag(false)
-                            }}>
-                        Sign out
-                        </MDBBtn>
-                }
+             {(props.user?.role === "admin")&&
+              <MDBBtn outline color="success" className='me-2' type='button'onClick={()=>{
+                props.setflagUser(false)
+                props.setflagPosts(true)
+                }}>
+              Posts List
+            </MDBBtn>
+            }
+
+          
+
+            {(props.user?.role === "admin")&&
+              <MDBBtn outline color="success" className='me-2' type='button'onClick={()=>{
+                props.setflagUser(true)
+                props.setflagPosts(false)
+                }}>
+              Users List
+            </MDBBtn>
+            }
+          {props.signOutFlag &&
+                  <MDBBtn outline color="secondary" type='button' onClick={()=>{
+                      cookies.remove("token") 
+                      props.setisLogged(false)
+                      props.setsignUpFlag(false)
+                      props.setLoginFlag(true)
+                      props.setsignOutFlag(false)
+                      props.setflagUser(false)
+                      props.setflagPosts(false)
+                      }}>
+                  Sign out
+                  </MDBBtn>
+          }
             </>
             }
       </div>

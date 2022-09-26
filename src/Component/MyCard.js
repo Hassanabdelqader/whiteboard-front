@@ -20,7 +20,10 @@ function MyCard(props) {
       
     }
 
-  const handlepost = (id)=>{
+  const handleDelete = (id)=>{
+    if(!window.confirm(" You Are about to Delete the Post and all it's Comments?")){
+      return ;
+    }
     const config = {
       headers: { Authorization: `Bearer ${cookies.get('token')}` }
   };
@@ -51,10 +54,10 @@ function MyCard(props) {
           <Card.Text>{props.item.content} </Card.Text>
 
         {
-         (props.user.role ==="admin")&&
+         (props.user?.role ==="admin")&&
           <>
             <Button variant="primary" className="cardbtn" onClick={()=>handleEdit(props.id)} >Update</Button>
-            <Button variant="primary" className="cardbtn" onClick={()=>handlepost(props.id)} >Delete</Button>
+            <Button variant="primary" className="cardbtn" onClick={()=>handleDelete(props.id)} >Delete</Button>
           </>
         }
 

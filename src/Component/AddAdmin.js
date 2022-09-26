@@ -5,40 +5,35 @@ import Form from 'react-bootstrap/Form';
 import Cookies from 'universal-cookie';
 
 
-function SignUp(props) {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+function AddAdmin(props) {
     const cookies = new Cookies();
 
 
     const handlesubmut = (e)=>{
         e.preventDefault();
-        if(e.target.formBasicPassword.value !==e.target.formBasicConfirmPassword.value )
+        if(e.target.formBasicPasswordAdmin.value !==e.target.formBasicConfirmPasswordAdmin.value )
         {
           alert("the password should be matched ")
           return;
         }
         let body ={
-          username: e.target.formBasicusername.value,
-          email: e.target.formBasicEmail.value,
+          username: e.target.formBasicusernameAdmin.value,
+          email: e.target.formBasicEmailAdmin.value,
           password: e.target.formBasicPassword.value,
         }
         
-        axios.post(`${process.env.REACT_APP_BASE_URL}users/signup`, body)
+        axios.post(`${process.env.REACT_APP_BASE_URL}users/addadmin`, body)
         .then((result)=>{
           alert("added Suceffully")
           cookies.set('token', result.data.token, { path: '/' });
+          props.setUser(result.data)
           props.setisLogged(true)
-          props.setflagPosts(true)
+          props.fetchData()
         })
         .catch(error=>{
           alert(error.response.data)
 
         })
-
-     
     }
 
   return (
@@ -46,13 +41,13 @@ function SignUp(props) {
         <div className="container containerlogin">
         <Form onSubmit={handlesubmut}>
           
-        <Form.Group className="mb-3" controlId="formBasicusername"  >
+        <Form.Group className="mb-3" controlId="formBasicusernameAdmin"  >
         <Form.Label>User Name</Form.Label>
         <Form.Control type="text" placeholder="Enter User Name" required />
         <Form.Text className="text-muted">
         </Form.Text>
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicEmail"  >
+      <Form.Group className="mb-3" controlId="formBasicEmailAdmin"  >
         <Form.Label>Email address</Form.Label>
         <Form.Control type="email" placeholder="Enter email" required />
         <Form.Text className="text-muted">
@@ -60,11 +55,11 @@ function SignUp(props) {
         </Form.Text>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword" required>
+      <Form.Group className="mb-3" controlId="formBasicPasswordAdmin" required>
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" placeholder="Password" required />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+      <Form.Group className="mb-3" controlId="formBasicConfirmPasswordAdmin">
         <Form.Label>Confirm Password</Form.Label>
         <Form.Control type="password" placeholder="Confirmed Password" required />
       </Form.Group>
@@ -77,4 +72,4 @@ function SignUp(props) {
   );
 }
 
-export default SignUp;
+export default AddAdmin;
