@@ -27,11 +27,10 @@ function Login(props) {
         })
         .then((result)=>{
           cookies.set('token', result.data.token, { path: '/' });
-        //   props.setUser(result.data)
           props.setisLogged(true)
+          props.setflagPosts(true)
         })
         .catch(error=>{
-            console.log("error")
           alert(error.response.data)
 
         })
