@@ -20,14 +20,14 @@
     "react-scripts": "5.0.1",
     "simple-react-form": "^3.0.12",
     "universal-cookie": "^4.0.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.74.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "webpack --config webpack.config.dev.js",
-    "build": "webpack --config webpack.config.build.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
