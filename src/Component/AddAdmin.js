@@ -19,7 +19,7 @@ function AddAdmin(props) {
         let body ={
           username: e.target.formBasicusernameAdmin.value,
           email: e.target.formBasicEmailAdmin.value,
-          password: e.target.formBasicPassword.value,
+          password: e.target.formBasicPasswordAdmin.value,
         }
         
         axios.post(`${process.env.REACT_APP_BASE_URL}users/addadmin`, body)
