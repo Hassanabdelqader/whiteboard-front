@@ -1,10 +1,13 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 import Cookies from 'universal-cookie';
+import { dataContext } from '../Context/dataContext';
 
 function AddPost(props) {
     const cookies = new Cookies();
+    
+  const dataDetalis = useContext(dataContext)
 
     const handlesubmit = (e)=>{
         e.preventDefault();
@@ -33,7 +36,7 @@ function AddPost(props) {
           body,
           config
         ).then(result=>{
-          props.fetchData()
+            dataDetalis.fetchData()
           alert("Added Succ")
         }).catch(console.log);
     

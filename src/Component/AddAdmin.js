@@ -1,12 +1,19 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import Cookies from 'universal-cookie';
+import { dataContext } from "../Context/dataContext";
+import { postContext } from "../Context/postContext";
+import { userContext } from "../Context/userContext";
 
 
 function AddAdmin(props) {
     const cookies = new Cookies();
+    
+  const userDetalis = useContext(userContext)
+  const postDetalis = useContext(postContext)
+  const dataDetalis = useContext(dataContext)
 
 
     const handlesubmut = (e)=>{
@@ -26,9 +33,9 @@ function AddAdmin(props) {
         .then((result)=>{
           alert("added Suceffully")
           cookies.set('token', result.data.token, { path: '/' });
-          props.setUser(result.data)
-          props.setisLogged(true)
-          props.fetchData()
+          userDetalis.setUser(result.data)
+          userDetalis.setisLogged(true)
+          dataDetalis.fetchData()
         })
         .catch(error=>{
           alert(error.response.data)
