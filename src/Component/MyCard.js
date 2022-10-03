@@ -1,11 +1,14 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ListGroup } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import FormComment from "./FormComment";
 import Cookies from 'universal-cookie';
 import MineModal from "./Modal";
+import { userContext } from "../Context/userContext";
+import { postContext } from "../Context/postContext";
+import { dataContext } from "../Context/dataContext";
 
 
 function MyCard(props) {
@@ -13,6 +16,11 @@ function MyCard(props) {
     const cookies = new Cookies();
 
   const [showModal,setShowModal] = useState(false)
+
+  const userDetalis = useContext(userContext)
+  const postDetalis = useContext(postContext)
+  const dataDetalis = useContext(dataContext)
+
 
 
     const handleEdit= (id)=>{
@@ -32,7 +40,7 @@ function MyCard(props) {
       `${process.env.REACT_APP_BASE_URL}posts/deletepost/${id}`,
       config
     ).then(result=>{
-      props.fetchData()
+      dataDetalis.fetchData()
       alert("Delete Succ")
     }).catch(console.log);
   }
@@ -44,7 +52,6 @@ function MyCard(props) {
       <MineModal flage={showModal} setShowModal={setShowModal} id={props.id} 
       title={props.item.title}
       content = {props.item.content}
-      fetchData={props.fetchData}
       />
       }
       <Card>
@@ -54,11 +61,18 @@ function MyCard(props) {
           <Card.Text>{props.item.content} </Card.Text>
 
         {
-         (props.user?.role ==="admin")&&
+          (userDetalis.user?.role =="admin")?
           <>
-            <Button variant="primary" className="cardbtn" onClick={()=>handleEdit(props.id)} >Update</Button>
-            <Button variant="primary" className="cardbtn" onClick={()=>handleDelete(props.id)} >Delete</Button>
+          <Button variant="primary" className="cardbtn" onClick={()=>handleEdit(props.id)} >Update</Button>
+          <Button variant="primary" className="cardbtn" onClick={()=>handleDelete(props.id)} >Delete</Button>
+          </> : (props.item.UserId == userDetalis.user?.id)?
+          <>
+          <Button variant="primary" className="cardbtn" onClick={()=>handleEdit(props.id)} >Update</Button>
+          <Button variant="primary" className="cardbtn" onClick={()=>handleDelete(props.id)} >Delete</Button>
+          </>:
+          <>
           </>
+
         }
 
           {props.item.Comments &&
@@ -86,9 +100,7 @@ function MyCard(props) {
           </ListGroup>
           }
         </Card.Body>
-          <FormComment user={props.user} id = {props.id} 
-          fetchData={props.fetchData}
-          />
+          <FormComment id = {props.id} />
       </Card>
     </div>
   );

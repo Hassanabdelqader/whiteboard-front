@@ -1,12 +1,19 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import { Base64 } from "js-base64";
 import Cookies from 'universal-cookie';
+import { userContext } from "../Context/userContext";
+import { postContext } from "../Context/postContext";
 
 
 function Login(props) {
+  
+
+  const userDetalis = useContext(userContext)
+  const postDetalis = useContext(postContext)
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -27,8 +34,8 @@ function Login(props) {
         })
         .then((result)=>{
           cookies.set('token', result.data.token, { path: '/' });
-          props.setisLogged(true)
-          props.setflagPosts(true)
+          userDetalis.setisLogged(true)
+          postDetalis.setflagPosts(true)
         })
         .catch(error=>{
           alert(error.response.data)
