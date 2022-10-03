@@ -1,16 +1,18 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Cookies from 'universal-cookie';
+import { dataContext } from '../Context/dataContext';
 
 
 function MineModal(props) {
-  const [show, setShow] = useState(true);
   const [title, setTitle] = useState(props.title);
   const [content, setContent] = useState(props.content);
   const cookies = new Cookies();
+  const dataDetalis = useContext(dataContext)
+
 
   const handleExite = () => {
     // setShow(false);
@@ -45,7 +47,7 @@ function MineModal(props) {
       body,
       config
     ).then(result=>{
-      props.fetchData()
+      dataDetalis.fetchData()
       alert("Upated Succ")
     }).catch(console.log);
 

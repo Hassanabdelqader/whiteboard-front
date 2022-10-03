@@ -5,12 +5,21 @@ import App from './App';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import UserProvider from './Context/userContext';
+import PostProvider from './Context/postContext';
+import DataProvider from './Context/dataContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
      <BrowserRouter>
-    <App />
+          <PostProvider>
+                <UserProvider>
+                    <DataProvider>
+                               <App />
+                    </DataProvider>
+                </UserProvider>
+          </PostProvider>
      </BrowserRouter>
   </React.StrictMode>
 );

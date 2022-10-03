@@ -1,11 +1,15 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import Cookies from 'universal-cookie';
+import { dataContext } from '../Context/dataContext';
 
 
 function FormComment(props) {
     const cookies = new Cookies();
+  const dataDetalis = useContext(dataContext)
+
+
 
     const handleComment = (e)=>{
         e.preventDefault();
@@ -37,7 +41,7 @@ function FormComment(props) {
           body,
           config
         ).then(result=>{
-          props.fetchData()
+            dataDetalis.fetchData()
         }).catch(console.log);
 
     }

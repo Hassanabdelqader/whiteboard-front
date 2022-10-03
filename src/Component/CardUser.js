@@ -3,10 +3,14 @@ import Card from 'react-bootstrap/Card';
 import AddAdmin from './AddAdmin';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
+import { dataContext } from '../Context/dataContext';
+import { useContext } from 'react';
 
 
 function CardUser(props) {
     const cookies = new Cookies();
+  const dataDetalis = useContext(dataContext)
+    
 
 
 const handlesubmit =()=>{
@@ -19,7 +23,7 @@ axios.put(
     {},
     configuser
   ).then(result=>{
-   props.fetchData()
+    dataDetalis.fetchData()
     alert("Upated Succ")
   }).catch(console.log);
 

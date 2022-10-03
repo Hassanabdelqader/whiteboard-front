@@ -1,8 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import Cookies from 'universal-cookie';
+import { postContext } from "../Context/postContext";
+import { userContext } from "../Context/userContext";
 
 
 function SignUp(props) {
@@ -10,6 +12,10 @@ function SignUp(props) {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const userDetalis = useContext(userContext)
+    const postDetalis = useContext(postContext)
+
     const cookies = new Cookies();
 
 
@@ -30,8 +36,8 @@ function SignUp(props) {
         .then((result)=>{
           alert("added Suceffully")
           cookies.set('token', result.data.token, { path: '/' });
-          props.setisLogged(true)
-          props.setflagPosts(true)
+          userDetalis.setisLogged(true)
+          postDetalis.setflagPosts(true)
         })
         .catch(error=>{
           alert(error.response.data)

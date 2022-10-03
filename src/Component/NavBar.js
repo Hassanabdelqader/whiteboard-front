@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   MDBNavbar,
   MDBBtn,
   MDBContainer
 } from 'mdb-react-ui-kit';
 import Cookies from 'universal-cookie';
+import { userContext } from '../Context/userContext';
+import { postContext } from '../Context/postContext';
+import { dataContext } from '../Context/dataContext';
 
 export default function NavBar(props) {
+  
+  const userDetalis = useContext(userContext)
+  const postDetalis = useContext(postContext)
+  const dataDetalis = useContext(dataContext)
 
 
   const cookies = new Cookies();
@@ -20,29 +27,29 @@ export default function NavBar(props) {
         
         
         <MDBBtn outline color="secondary"  className='headerlogo' type='button' onClick={()=>{
-          props.fetchData([1,2])
+          dataDetalis.fetchData([1,2])
         }} >
         WhiteBoard
         </MDBBtn>
         </div>
 
       <div>
-      {!props.isLogged && 
+      {!userDetalis.isLogged && 
        <>
         <MDBBtn outline color="success" className='me-2' type='button'onClick={()=>{
-            props.setLoginFlag(false)
-            props.setsignUpFlag(true)
-            props.setsignOutFlag(false)
+            userDetalis.setLoginFlag(false)
+            userDetalis.setsignUpFlag(true)
+            userDetalis.setsignOutFlag(false)
             }}>
           Sign Up
         </MDBBtn>
 
         <MDBBtn outline color="secondary" type='button' onClick={()=>{
 
-            props.setsignUpFlag(false)
-            props.setLoginFlag(true)
-            props.setsignOutFlag(false)
-            props.setUser(null)
+            userDetalis.setsignUpFlag(false)
+            userDetalis.setLoginFlag(true)
+            userDetalis.setsignOutFlag(false)
+            userDetalis.setUser(null)
             
             }}>
           Login
@@ -50,13 +57,13 @@ export default function NavBar(props) {
        </>
         }
           
-            {props.isLogged && 
+            {userDetalis.isLogged && 
             <>
-            welcome{" "} {props.user?.username} {" "}
-             {(props.user?.role === "admin")&&
+            welcome{" "} {userDetalis.user?.username} {" "}
+             {(userDetalis.user?.role === "admin")&&
               <MDBBtn outline color="success" className='me-2' type='button'onClick={()=>{
-                props.setflagUser(false)
-                props.setflagPosts(true)
+                userDetalis.setflagUser(false)
+                postDetalis.setflagPosts(true)
                 }}>
               Posts List
             </MDBBtn>
@@ -64,23 +71,23 @@ export default function NavBar(props) {
 
           
 
-            {(props.user?.role === "admin")&&
+            {(userDetalis.user?.role === "admin")&&
               <MDBBtn outline color="success" className='me-2' type='button'onClick={()=>{
-                props.setflagUser(true)
-                props.setflagPosts(false)
+                userDetalis.setflagUser(true)
+                postDetalis.setflagPosts(false)
                 }}>
               Users List
             </MDBBtn>
             }
-          {props.signOutFlag &&
+          {userDetalis.signOutFlag &&
                   <MDBBtn outline color="secondary" type='button' onClick={()=>{
                       cookies.remove("token") 
-                      props.setisLogged(false)
-                      props.setsignUpFlag(false)
-                      props.setLoginFlag(true)
-                      props.setsignOutFlag(false)
-                      props.setflagUser(false)
-                      props.setflagPosts(false)
+                      userDetalis.setisLogged(false)
+                      userDetalis.setsignUpFlag(false)
+                      userDetalis.setLoginFlag(true)
+                      userDetalis.setsignOutFlag(false)
+                      userDetalis.setflagUser(false)
+                      postDetalis.setflagPosts(false)
                       }}>
                   Sign out
                   </MDBBtn>
