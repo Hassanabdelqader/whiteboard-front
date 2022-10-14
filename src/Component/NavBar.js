@@ -27,7 +27,7 @@ export default function NavBar(props) {
         </div>
 
         <div>
-          {!userDetalis.isLogged && (
+          {!userDetalis.authRed.isLogged && (
             <>
               <MDBBtn
                 outline
@@ -35,9 +35,10 @@ export default function NavBar(props) {
                 className="me-2"
                 type="button"
                 onClick={() => {
-                  userDetalis.setLoginFlag(false);
-                  userDetalis.setsignUpFlag(true);
-                  userDetalis.setsignOutFlag(false);
+                  userDetalis.dispatch({type:"SIGNOUTPAGE"})
+                  // userDetalis.setLoginFlag(false);
+                  // userDetalis.setsignUpFlag(true);
+                  // userDetalis.setsignOutFlag(false);
                 }}
               >
                 Sign Up
@@ -48,9 +49,11 @@ export default function NavBar(props) {
                 color="secondary"
                 type="button"
                 onClick={() => {
-                  userDetalis.setsignUpFlag(false);
-                  userDetalis.setLoginFlag(true);
-                  userDetalis.setsignOutFlag(false);
+                  userDetalis.dispatch({type:"SIGNINPAGE"})
+
+                  // userDetalis.setsignUpFlag(false);
+                  // userDetalis.setLoginFlag(true);
+                  // userDetalis.setsignOutFlag(false);
                   userDetalis.setUser(null);
                 }}
               >
@@ -59,7 +62,7 @@ export default function NavBar(props) {
             </>
           )}
 
-          {userDetalis.isLogged && (
+          {userDetalis.authRed.isLogged && (
             <>
               welcome {userDetalis.user?.username}{" "}
               {userDetalis.user?.role === "admin" && (
@@ -69,7 +72,9 @@ export default function NavBar(props) {
                   className="me-2"
                   type="button"
                   onClick={() => {
-                    userDetalis.setflagUser(false);
+                    // userDetalis.setflagUser(false);
+                   userDetalis.dispatch({type:"POSTLIST"})
+
                     postDetalis.setflagPosts(true);
                   }}
                 >
@@ -83,20 +88,22 @@ export default function NavBar(props) {
                   className="me-2"
                   type="button"
                   onClick={() => {
-                    userDetalis.setflagUser(true);
-                    postDetalis.setflagPosts(false);
+                    // userDetalis.setflagUser(true);
+                  userDetalis.dispatch({type:"USERLIST"})
+                  postDetalis.setflagPosts(false);
                   }}
                 >
                   Users List
                 </MDBBtn>
               )}
-              {userDetalis.signOutFlag && (
+              {userDetalis.authRed.signOutFlag && (
                 <MDBBtn
                   outline
                   color="secondary"
                   type="button"
                   onClick={() => {
-                    userDetalis.logout();
+                   userDetalis.logout();
+                    // userDetalis.dispatch({type:"LOGOUT"})
                   }}
                 >
                   Sign out

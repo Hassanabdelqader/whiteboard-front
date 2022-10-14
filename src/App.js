@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import "./App.css";
 import MyFooter from "./Component/Footer";
 import Login from "./Component/Login";
@@ -10,45 +10,46 @@ import Users from "./Component/Users";
 import { userContext } from "./Context/userContext";
 import { postContext } from "./Context/postContext";
 import { dataContext } from "./Context/dataContext";
+import { initalState, reducer } from "./Reducers/userReducers";
+
 
 function App() {
   const userDetalis = useContext(userContext);
   const postDetalis = useContext(postContext);
   const dataDetalis = useContext(dataContext);
-
+  // const [authRed, dispatch] = useReducer(reducer, initalState);
+  
   const cookies = new Cookies();
-
   useEffect(() => {
     if (cookies.get("token")) {
       dataDetalis.fetchData();
-      userDetalis.setisLogged(true);
-      userDetalis.setsignUpFlag(false);
-      userDetalis.setLoginFlag(false);
-      userDetalis.setsignOutFlag(true);
+      userDetalis.dispatch({type:"LOGIN"})
     } else {
-      userDetalis.setisLogged(false);
-      userDetalis.setsignUpFlag(false);
-      userDetalis.setLoginFlag(true);
-      userDetalis.setsignOutFlag(false);
+      userDetalis.dispatch({type:"LOGOUT"})
     }
-  }, [userDetalis.isLogged]);
+  }, [userDetalis.authRed.isLogged]);
 
   return (
     <div className="App">
       <NavBar />
 
-      {userDetalis.flagUser && <>{userDetalis.userList && <Users />}</>}
 
-      {userDetalis.isLogged && <>{postDetalis.flagPosts && <ShowData />}</>}
+      {userDetalis.authRed.isLogged && <>{postDetalis.flagPosts && <ShowData />}</>}
+      {userDetalis.authRed.flagUser && <>{
 
-      {!userDetalis.isLogged && (
+      userDetalis.userList && <Users />}</>}
+
+
+      {!userDetalis.authRed.isLogged && (
         <>
-          {userDetalis.loginFlag && <Login />}
-          {userDetalis.signUpFlag && <SignUp />}
+          {userDetalis.authRed.loginFlag && <Login />}
+          {userDetalis.authRed.signUpFlag && <SignUp />}
         </>
       )}
 
+
       <div className="forfooter"></div>
+
       <MyFooter />
     </div>
   );
