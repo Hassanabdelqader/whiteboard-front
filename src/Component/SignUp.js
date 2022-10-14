@@ -32,7 +32,7 @@ function SignUp(props) {
       .then((result) => {
         alert("added Suceffully");
         cookies.set("token", result.data.token, { path: "/" });
-        userDetalis.setisLogged(true);
+        userDetalis.dispatch({type:"SIGNUPSUC"})
         postDetalis.setflagPosts(true);
       })
       .catch((error) => {
