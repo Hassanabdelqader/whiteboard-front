@@ -1,3 +1,4 @@
+import { VStack } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext } from "react";
 import { Button } from "react-bootstrap";
@@ -42,7 +43,8 @@ function AddAdmin(props) {
   };
 
   return (
-    <div>
+    <VStack
+    >
       <div className="container containerlogin">
         <Form onSubmit={handlesubmut}>
           <Form.Group className="mb-3" controlId="formBasicusernameAdmin">
@@ -82,7 +84,7 @@ function AddAdmin(props) {
           </Button>
         </Form>
       </div>
-    </div>
+    </VStack>
   );
 }
 

@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 import { dataContext } from "../Context/dataContext";
 import { useContext } from "react";
+import { HStack } from "@chakra-ui/react";
 
 function CardUser(props) {
   const cookies = new Cookies();
@@ -27,8 +28,13 @@ function CardUser(props) {
   };
 
   return (
-    <>
-      <Card>
+    <HStack
+      width={"100%"}
+      bg={"green"}
+    >
+      <Card
+      style={{ width:"100%" }}
+      >
         <Card.Header as="h5">{props.item.username}</Card.Header>
         <Card.Body>
           <Card.Title>{` Role : ${props.item.role}`}</Card.Title>
@@ -38,7 +44,7 @@ function CardUser(props) {
           </Button>
         </Card.Body>
       </Card>
-    </>
+    </HStack>
   );
 }
 
