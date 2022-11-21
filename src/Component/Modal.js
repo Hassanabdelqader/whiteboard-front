@@ -1,10 +1,12 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Cookies from 'universal-cookie';
 import { dataContext } from '../Context/dataContext';
+import { useSelector, useDispatch } from "react-redux";
+import { show, notshow } from "../redux/model/modelSlice";
 
 
 function MineModal(props) {
@@ -12,16 +14,20 @@ function MineModal(props) {
   const [content, setContent] = useState(props.content);
   const cookies = new Cookies();
   const dataDetalis = useContext(dataContext)
+  
+  const modelState = useSelector((state) => state.model.value);
+  const dispatch = useDispatch();
 
 
   const handleExite = () => {
     // setShow(false);
-    props.setShowModal(false)
+    dispatch(notshow());
+    // props.setShowModal(false)
 }
 
 
   const handleSubmit = (e) => {
-      
+    console.log(props.cardid);
       e.preventDefault();
       
     if(e.target.title.value.length === 0 || e.target.content.value.length === 0)
@@ -42,30 +48,36 @@ function MineModal(props) {
         "content" : content,
     }
 
-    axios.put( 
-      `${process.env.REACT_APP_BASE_URL}posts/updatepost/${props.id}`,
-      body,
-      config
-    ).then(result=>{
-      dataDetalis.fetchData()
-      alert("Upated Succ")
-    }).catch(console.log);
+    axios
+      .put(
+        `${process.env.REACT_APP_BASE_URL}posts/updatepost/${props.cardid}`,
+        body,
+        config
+      )
+      .then((result) => {
+        console.log(result.data);
+        dataDetalis.fetchData();
+        alert("Upated Succ");
+      })
+      .catch(console.log);
 
-
-    props.setShowModal(false)
+dispatch(notshow());
+    // props.setShowModal(false)
 
   }
 
   const handlechangecontent = (e) => {setContent(e.target.value)}
   const handlechangetitle = (e) => {setTitle(e.target.value)}
 
-  return (
-    
-    <>
+   useEffect(() => {
+     console.log(props.cardid);
+   });
 
-      <Modal show={props.flage} onHide={handleExite}>
+  return (
+    <>
+      <Modal show={modelState} onHide={handleExite}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Post</Modal.Title>
+          <Modal.Title>Edit Post{props.cardid}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
@@ -75,33 +87,29 @@ function MineModal(props) {
                 type="text"
                 placeholder="Enter Title"
                 value={`${title}`}
-             onChange={handlechangetitle}
-
+                onChange={handlechangetitle}
                 autoFocus
               />
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="content"
-            >
+            <Form.Group className="mb-3" controlId="content">
               <Form.Label>Content</Form.Label>
-              <Form.Control as="textarea" rows={3} 
-             onChange={handlechangecontent}
-             value={`${content}`}
+              <Form.Control
+                as="textarea"
+                rows={3}
+                onChange={handlechangecontent}
+                value={`${content}`}
               />
 
-              <br/>
-                <Button variant="success" type="submit" >
+              <br />
+              <Button variant="success" type="submit">
                 Save Changes
-            </Button>
+              </Button>
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
-    
-    );
+  );
 }
 export default MineModal

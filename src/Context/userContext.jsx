@@ -27,29 +27,6 @@ export default function UserProvider({ children }) {
 
   function login(userName, passWord) {
     const encoded = Base64.encode(`${userName}:${passWord}`);
-
-    // axios
-    // .post(
-    //   `${process.env.REACT_APP_BASE_URL}users/signin`,
-    //   {},
-    //   {
-    //     headers: {
-    //       Authorization: `Basic ${encoded}`,
-    //     },
-    //   }
-    // )
-    // .then((result) => {
-    //   cookies.set("token", result.data.token, { path: "/" });
-    //  setisLogged(true);
-    //   postDetalis.setflagPosts(true);
-    //   return true
-    // })
-    // .catch((error) => {
-    //     console.log(error)
-    //   alert(error.response?.data);
-    //   return false
-    // });
-
     
     loginhandeler(dispatch, encoded);
   }
